@@ -2,6 +2,9 @@
 
 Centralized repository for resources of technical posts. 
 
+<img src="metadata/banner.png">
+
+
 - [Post1](post1)
 
 
