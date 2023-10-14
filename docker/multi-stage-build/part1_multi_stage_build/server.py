@@ -1,22 +1,20 @@
 from fastapi import FastAPI
-import os
+from helloworld import mod1
 
 app = FastAPI()
-
-# References: https://fastapi.tiangolo.com/advanced/events/
 
 items = {}
 
 @app.on_event("startup")
 async def startup_event():
 
-    items["foo"] = {"name": "Fighters"}
-    items["bar"] = {"name": "Tenders"}
+    items["foo"] = {"name": mod1.add_one(0)}
+    items["bar"] = {"name": mod1.add_one(1)}
 
 
 @app.on_event("shutdown")
 def shutdown_event():
-    with open("/app/temp/log.txt", mode="a") as log:
+    with open("/app/log.txt", mode="a") as log:
         log.write("Application shutdown\n")
 
 
@@ -26,4 +24,5 @@ async def read_items(item_id: str):
 
 @app.get("/")
 async def welcome():
-    return dict(message = "Hello World!")
+
+    return dict(message = "Welcome to part 1: multi stage build!")

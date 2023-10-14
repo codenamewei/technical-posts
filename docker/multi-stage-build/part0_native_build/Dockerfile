@@ -1,5 +1,10 @@
 FROM python:3.11-slim
 
+RUN pip3 install --no-cache --upgrade pip setuptools
+
+COPY helloworld /app/helloworld
+RUN cd /app/helloworld && pip install .
+
 COPY requirements.txt /app/requirements.txt
 COPY server.py /app/server.py
 
