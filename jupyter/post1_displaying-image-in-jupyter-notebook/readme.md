@@ -1,6 +1,7 @@
 ## Displaying Image in Jupyter Notebook
 
 <img src="metadata/image_banner.png">
+
 _Last Updated: 2023 October 23_
 
 ### Dependencies setup
