@@ -2,8 +2,6 @@
 
 <img src="metadata/image_banner.png">
 
-_Last Updated: 2023 October 23_
-
 ### Dependencies setup
 - Ensure that the version of python is 3.10.* or above
 - Install the required dependencies with commands below
