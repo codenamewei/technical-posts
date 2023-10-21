@@ -1,6 +1,15 @@
 ## Technical Posts
 
+
+
+
 Centralized repository for resources of technical posts.
+
+<p>
+  <p align="left">
+<img alt="project status: active" src="https://img.shields.io/badge/Project%20Status-%F0%9F%94%A5Active-brightgreen">
+
+</p>
 
 <img src="metadata/banner.png"></br></br>
 
