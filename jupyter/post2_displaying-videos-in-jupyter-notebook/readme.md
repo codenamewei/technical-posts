@@ -6,7 +6,7 @@
 - Ensure that the version of python is 3.10.* or above
 - Install the required dependencies with commands below
     ```
-    pip install -r requirements.txt
+    pip install mediapy
     ```
 
 ### How to start running
