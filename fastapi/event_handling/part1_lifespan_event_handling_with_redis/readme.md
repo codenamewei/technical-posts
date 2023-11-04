@@ -7,7 +7,7 @@ python -m pip install -r requirements.txt
 
 ### Sample Code
 
-<img src="metadata/code_snippet.png">
+<img src="metadata/code_snippet.png" width="600">
 
 
 ### [Redis](https://github.com/redis/redis-py)
