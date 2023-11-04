@@ -1,0 +1,21 @@
+## Part 1: Managing Lifespan Events in FastAPI with Redis Example
+
+### Install dependencies
+```
+python -m pip install -r requirements.txt
+```
+
+### Sample Code
+
+<img src="metadata/code_snippet.png">
+
+
+### [Redis](https://github.com/redis/redis-py)
+
+- Initialize redis in docker
+```
+docker run -p 6379:6379 -it redis/redis-stack:latest
+```
+
+### References
+- https://fastapi.tiangolo.com/advanced/events/
