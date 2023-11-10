@@ -1,5 +1,5 @@
 from memory_profiler import profile
-import pandas as pd
+
 
 @profile
 def merge_with_io(files : list[str], outputfile : str, header : str) -> None:
@@ -28,6 +28,22 @@ def merge_with_io(files : list[str], outputfile : str, header : str) -> None:
 @profile
 def merge_with_pandas(files: list[str], outputfile : str) -> None:
     
+    import pandas as pd
+
+    dfout = pd.DataFrame()
+
+    for file in files:
+        df = pd.read_csv(file)
+        dfout = pd.concat([dfout, df], axis=0, ignore_index=True)
+    dfout.to_csv(outputfile, index = False)
+
+@profile
+def merge_with_modin_pandas(files: list[str], outputfile : str) -> None:
+    from distributed import Client
+
+    client = Client()
+    import modin.pandas as pd
+
     dfout = pd.DataFrame()
 
     for file in files:
@@ -59,6 +75,8 @@ if __name__ == '__main__':
     
     nativeoutputfile = f"data/{key}_native.csv"
     pdoutputfile = f"data/{key}_pd.csv"
+    modinpdoutputfile = f"data/{key}_modin_pd.csv"
+
     
     
 #     lp = LineProfiler()
@@ -70,8 +88,15 @@ if __name__ == '__main__':
 #     lp_wrapper(files, pdoutputfile)
 #     lp.print_stats()
 
+    print("Run io method")
     merge_with_io(files, nativeoutputfile, header)
-    
+
+    print("Run pandas method")   
     merge_with_pandas(files, pdoutputfile)
+
+
+    print("Run modin method")
+    merge_with_modin_pandas(files, modinpdoutputfile)
+
 
     

@@ -1,5 +1,5 @@
 from line_profiler import LineProfiler
-import pandas as pd
+
 
 def merge_with_io(files : list[str], outputfile : str, header : str) -> None:
     
@@ -25,6 +25,21 @@ def merge_with_io(files : list[str], outputfile : str, header : str) -> None:
     fout.close()           
             
 def merge_with_pandas(files: list[str], outputfile : str) -> None:
+    import pandas as pd
+
+    dfout = pd.DataFrame()
+
+    for file in files:
+        df = pd.read_csv(file)
+        dfout = pd.concat([dfout, df], axis=0, ignore_index=True)
+    dfout.to_csv(outputfile, index = False)
+
+def merge_with_modin_pandas(files: list[str], outputfile : str) -> None:
+    from distributed import Client
+
+    client = Client()
+    
+    import modin.pandas as pd
     
     dfout = pd.DataFrame()
 
@@ -61,9 +76,16 @@ if __name__ == '__main__':
     
     lp = LineProfiler()
 
+    print("Run io method")
     lp_wrapper = lp(merge_with_io)
     lp_wrapper(files, nativeoutputfile, header)
     
+    print("Run pandas method")
     lp_wrapper = lp(merge_with_pandas)
+    lp_wrapper(files, pdoutputfile)
+    lp.print_stats()
+
+    print("Run modin method")
+    lp_wrapper = lp(merge_with_modin_pandas)
     lp_wrapper(files, pdoutputfile)
     lp.print_stats()
