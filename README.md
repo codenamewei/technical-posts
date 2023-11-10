@@ -18,5 +18,5 @@ Centralized repository for resources of technical posts.
 ![Python](https://img.shields.io/badge/-Python-05122A?style=flat&logo=python)![Markdown](https://img.shields.io/badge/-Markdown-05122A?style=flat&logo=markdown)
 2. Part 2: Displaying Videos in Jupyter Notebook&nbsp;&nbsp;[Code](jupyter/post2_displaying-videos-in-jupyter-notebook/readme.md)&nbsp;&nbsp;[Post](https://betterprogramming.pub/part-2-displaying-videos-in-jupyter-notebook-e9dda3bf1e20?sk=1b428e1f06a381badcb774209029d3dc)  
 ![Python](https://img.shields.io/badge/-Python-05122A?style=flat&logo=python)![Markdown](https://img.shields.io/badge/-Markdown-05122A?style=flat&logo=markdown)
-
-
+3. Part 1: Managing Lifespan Events in FastAPI with Redis Example&nbsp;&nbsp;[Code](fastapi/event_handling/part1_lifespan_event_handling_with_redis/server.py) [Post](https://medium.com/datadriveninvestor/part-1-managing-lifespan-events-in-fastapi-with-redis-example-a63db39bc5eb)  
+![Python](https://img.shields.io/badge/-Python-05122A?style=flat&logo=python)![FastAPI](https://img.shields.io/badge/-FastAPI-05122A?style=flat&logo=fastapi)
