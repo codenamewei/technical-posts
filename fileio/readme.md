@@ -4,6 +4,7 @@ pip install memory_profiler
 pip install line_profiler
 pip install pandas==1.5.2
 pip install modin[all]
+pip install cchardet
 ```
 
 
