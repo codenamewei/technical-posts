@@ -13,15 +13,16 @@ import imageio.v3 as iio
 from facescan.facedetectionmodel import FaceDetectionModel
 
 from facescan.utils.bbox import Bbox
-from modelselection import ModelSelection
+from facescan.utils.modelselection import ModelSelection
 
 import utils
 
-inputdatapath = "edge-input"
-outputdatapath = "edge-output"
+datapath = "/Users/chiawei.lim/Downloads/buffer/technical-posts/machine-learning/face-detection-with-sahi-yolov8"
+inputdatapath = f"{datapath}/edge-input"
+outputdatapath = f"{datapath}/edge-output"
 modelpath = "/Users/chiawei.lim/Downloads/buffer/model-playground-data/face-detection/models"
 
-yolomodel = os.path.join(modelpath, "yolo_sahi.pt")#"yolo.onnx")
+yolomodel = os.path.join(modelpath, "yolo_sahi.pt")
 sahimodel = os.path.join(modelpath, "yolo_sahi.pt")
 
 
@@ -32,7 +33,6 @@ if __name__ == "__main__":
     modeloptions : dict[str, FaceDetectionModel] = utils.load_models(modelpath)
 
     inputfiles : list[str] = utils.get_all_files(datapath = inputdatapath, targetdatapath = outputdatapath)
-    
 
     for file in inputfiles:
 
@@ -48,17 +48,15 @@ if __name__ == "__main__":
 
         for modelkey, model in modeloptions.items():
 
-            bboxes : list[Bbox] = model.detect(image)
+            bboxes, probabilities = model.detect(image)
 
             outimage = image.copy()
 
-            image_with_roi = utils.draw_roi(image = outimage, bboxes=bboxes)
+            image_with_roi = utils.draw_roi(image = outimage, bboxes=bboxes, probabilities = probabilities)
 
             outputfilepath = file.replace(inputdatapath, outputdatapath)
-            index = outputfilepath.find(".")
+            index = outputfilepath.find(".", 20)
             appendedfilepath = outputfilepath[:index] + f"_{modelkey}" + outputfilepath[index:]
-
-            print(appendedfilepath)
 
             iio.imwrite(appendedfilepath, image_with_roi)
         

@@ -27,7 +27,6 @@ class FaceDetectionModel:
 
     def detect(self, frame: np.array) -> list[Bbox]:
 
-
         if len(frame.shape) == 3:
 
             return self.model.compute_image(frame)
