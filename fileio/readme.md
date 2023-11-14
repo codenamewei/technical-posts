@@ -16,6 +16,14 @@ pip install cchardet
 https://github.com/aniruddhachoudhury/Red-Wine-Quality/blob/master/winequality-red.csv
 ```
 
+## How to run
+```
+python compare_memory.py --help
+python compare_memory.py --engine=pandas
+python compare_memory.py --engine=pandas
+python compare_memory.py --engine=polars
+```
+
 ## Notes
 - Pandas hold in memory, while native fileio write to file
 - Which one more memory consuming?

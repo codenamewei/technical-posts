@@ -1,5 +1,5 @@
 from memory_profiler import profile
-
+import click
 
 @profile
 def merge_with_io(files : list[str], outputfile : str, header : str) -> None:
@@ -37,6 +37,10 @@ def merge_with_pandas(files: list[str], outputfile : str) -> None:
         dfout = pd.concat([dfout, df], axis=0, ignore_index=True)
     dfout.to_csv(outputfile, index = False)
 
+    del df
+    del dfout
+
+
 
 @profile
 def merge_with_polars(files: list[str], outputfile : str) -> None:
@@ -67,8 +71,14 @@ def merge_with_modin_pandas(files: list[str], outputfile : str) -> None:
     dfout.to_csv(outputfile, index = False)
 
         
-        
-if __name__ == '__main__':
+@click.command()
+@click.option('--engine', default="pandas", help='Engine to process data')
+def compare_memory(engine: str):
+
+    SUPPORTED_ENGINES = ["pandas", "polars", "io"]
+    if engine not in SUPPORTED_ENGINES:
+
+        raise ValueError(f"Input {engine} invalid. Only supports {SUPPORTED_ENGINES}")
     
     duplicates = 100
     
@@ -93,28 +103,24 @@ if __name__ == '__main__':
     ploutputfile = f"data/{key}_pl.csv"
     modinpdoutputfile = f"data/{key}_modin_pd.csv"
 
-    
-    
-#     lp = LineProfiler()
 
-#     lp_wrapper = lp(merge_with_io)
-#     lp_wrapper(files, nativeoutputfile, header)
-    
-#     lp_wrapper = lp(merge_with_pandas)
-#     lp_wrapper(files, pdoutputfile)
-#     lp.print_stats()
+    if engine == "io":
+        print("Run io method")
+        merge_with_io(files, nativeoutputfile, header)
 
-    print("Run io method")
-    merge_with_io(files, nativeoutputfile, header)
+    elif engine == "polars":
+        print("Run polars method")   
+        merge_with_polars(files, ploutputfile)
 
-    print("Run pandas method")   
-    merge_with_pandas(files, pdoutputfile)
+    elif engine == "pandas":
+        print("Run pandas method")   
+        merge_with_pandas(files, pdoutputfile)
 
-    print("Run polars method")   
-    merge_with_polars(files, ploutputfile)
-
-    #print("Run modin method")
-    #merge_with_modin_pandas(files, modinpdoutputfile)
+    elif engine == "modin":
+        print("Run modin method")
+        merge_with_modin_pandas(files, modinpdoutputfile)
 
 
-    
+if __name__ == "__main__":
+
+    compare_memory()
