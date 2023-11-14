@@ -34,6 +34,18 @@ def merge_with_pandas(files: list[str], outputfile : str) -> None:
         dfout = pd.concat([dfout, df], axis=0, ignore_index=True)
     dfout.to_csv(outputfile, index = False)
 
+
+def merge_with_polars(files: list[str], outputfile : str) -> None:
+    import polars as pl
+
+    dfout = pl.DataFrame()
+
+    for file in files:
+        df = pl.read_csv(file, infer_schema_length=0)
+        dfout = pl.concat([dfout, df])
+    dfout.write_csv(outputfile)
+
+
 def merge_with_modin_pandas(files: list[str], outputfile : str) -> None:
     from distributed import Client
 
@@ -72,7 +84,8 @@ if __name__ == '__main__':
     
     nativeoutputfile = f"data/{key}_native.csv"
     pdoutputfile = f"data/{key}_pd.csv"
-    
+    ploutputfile = f"data/{key}_pl.csv"
+
     
     lp = LineProfiler()
 
@@ -83,9 +96,14 @@ if __name__ == '__main__':
     print("Run pandas method")
     lp_wrapper = lp(merge_with_pandas)
     lp_wrapper(files, pdoutputfile)
+
+    print("Run polars method")
+    lp_wrapper = lp(merge_with_polars)
+    lp_wrapper(files, ploutputfile)
     lp.print_stats()
 
-    print("Run modin method")
-    lp_wrapper = lp(merge_with_modin_pandas)
-    lp_wrapper(files, pdoutputfile)
-    lp.print_stats()
+
+    # print("Run modin method")
+    # lp_wrapper = lp(merge_with_modin_pandas)
+    # lp_wrapper(files, pdoutputfile)
+    # lp.print_stats()
