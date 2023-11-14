@@ -1,5 +1,13 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#----------------------------------------------------------------------------
+# Created By  : codenamewei
+# Created Date: 2023-11-10
+# Updated Date: 2023-11-14
+# version ='1.0'
+# ---------------------------------------------------------------------------
 from line_profiler import LineProfiler
-
+import click
 
 def merge_with_io(files : list[str], outputfile : str, header : str) -> None:
     
@@ -48,7 +56,8 @@ def merge_with_polars(files: list[str], outputfile : str) -> None:
 
 def merge_with_modin_pandas(files: list[str], outputfile : str) -> None:
     from distributed import Client
-
+    import ray
+    ray.init()
     client = Client()
     
     import modin.pandas as pd
@@ -59,51 +68,77 @@ def merge_with_modin_pandas(files: list[str], outputfile : str) -> None:
         df = pd.read_csv(file)
         dfout = pd.concat([dfout, df], axis=0, ignore_index=True)
     dfout.to_csv(outputfile, index = False)
+        
+@click.command()
+@click.option('--engine', default="pandas", help='Engine to process data')
+@click.option('--datapath', default="data/", help='datapath where csv file exists (without filename)')
+@click.option('--csvfilename', default="train_essays_7_prompts_v2", help='csvfilename (without extension). Supported options: train_essays_7_prompts_v2, winequality-red')
+@click.option("--duplicate", default=10, type = int, help="Number of times to duplicate the dataframe")
+def compare_time(engine: str, datapath: str, csvfilename: str, duplicate : int):
+    
+    SUPPORTED_ENGINES = ["pandas", "polars", "io", "modin"]
+    if engine not in SUPPORTED_ENGINES:
 
-        
-        
-if __name__ == '__main__':
-    
-    duplicates = 1000
-    
-    key = "sampleinput"
-    files = [f"data/{key}.csv"] * duplicates
-    header = "key, counter\n"
-    
-    nativeoutputfile = f"data/{key}_native.csv"
-    pdoutputfile = f"data/{key}_pd.csv"
-    
-    key = "winequality-red"
-    files = [f"data/{key}.csv"] * duplicates
-    
-    headerlist = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
+        raise ValueError(f"Input {engine} invalid. Only supports {SUPPORTED_ENGINES}")
+
+    SUPPORTED_FILENAME = ["train_essays_7_prompts_v2", "winequality-red"]
+
+    if csvfilename not in SUPPORTED_FILENAME:
+
+        raise ValueError(f"Input {csvfilename} invalid. Only supports {SUPPORTED_FILENAME}")
+
+    else:
+
+        if csvfilename == SUPPORTED_FILENAME[0]:
+            headerlist = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
        'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density',
        'pH', 'sulphates', 'alcohol', 'quality']
+        
+        elif csvfilename == SUPPORTED_FILENAME[1]:
+            headerlist = ["text", "label"]
+
+        else:
+
+            print("DEFINE YOUR OWN HEADER! Only needed for io method.")
     
+    files = [f"{datapath}/{csvfilename}.csv"] * duplicate
     header = ", ".join(headerlist) + "\n"
     
-    nativeoutputfile = f"data/{key}_native.csv"
-    pdoutputfile = f"data/{key}_pd.csv"
-    ploutputfile = f"data/{key}_pl.csv"
-
-    
     lp = LineProfiler()
+    if engine == "io":
+        print("Run io method")
+        nativeoutputfile = f"{datapath}/{csvfilename}_native.csv"
+        lp_wrapper = lp(merge_with_io)
+        lp_wrapper(files, nativeoutputfile, header)
 
-    print("Run io method")
-    lp_wrapper = lp(merge_with_io)
-    lp_wrapper(files, nativeoutputfile, header)
+    elif engine == "polars":
+        print("Run polars method")
+        ploutputfile = f"{datapath}/{csvfilename}_pl.csv"
+        lp_wrapper = lp(merge_with_polars)
+        lp_wrapper(files, ploutputfile)
+
+    elif engine == "pandas":
+        print("Run pandas method")
+        pdoutputfile = f"{datapath}/{csvfilename}_pd.csv"
+        lp_wrapper = lp(merge_with_pandas)
+        lp_wrapper(files, pdoutputfile)
+
+    elif engine == "modin":
+        print("Run modin method")
+        modinpdoutputfile = f"{datapath}/{csvfilename}_modin_pd.csv"
+        lp_wrapper = lp(merge_with_modin_pandas)
+        lp_wrapper(files, modinpdoutputfile)
     
-    print("Run pandas method")
-    lp_wrapper = lp(merge_with_pandas)
-    lp_wrapper(files, pdoutputfile)
-
-    print("Run polars method")
-    lp_wrapper = lp(merge_with_polars)
-    lp_wrapper(files, ploutputfile)
     lp.print_stats()
+        
+    
+if __name__ == "__main__":
+
+    compare_time()
+
+    
 
 
-    # print("Run modin method")
-    # lp_wrapper = lp(merge_with_modin_pandas)
-    # lp_wrapper(files, pdoutputfile)
-    # lp.print_stats()
+
+
+

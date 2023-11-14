@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#----------------------------------------------------------------------------
+# Created By  : codenamewei
+# Created Date: 2023-11-10
+# Updated Date: 2023-11-14
+# version ='1.0'
+# ---------------------------------------------------------------------------
 from memory_profiler import profile
 import click
 
@@ -59,7 +67,8 @@ def merge_with_polars(files: list[str], outputfile : str) -> None:
 @profile
 def merge_with_modin_pandas(files: list[str], outputfile : str) -> None:
     from distributed import Client
-
+    import ray
+    ray.init()
     client = Client()
     import modin.pandas as pd
 
@@ -73,51 +82,58 @@ def merge_with_modin_pandas(files: list[str], outputfile : str) -> None:
         
 @click.command()
 @click.option('--engine', default="pandas", help='Engine to process data')
-def compare_memory(engine: str):
+@click.option('--datapath', default="data/", help='datapath where csv file exists (without filename)')
+@click.option('--csvfilename', default="train_essays_7_prompts_v2", help='csvfilename (without extension). Supported options: train_essays_7_prompts_v2, winequality-red')
+@click.option("--duplicate", default=10, type = int, help="Number of times to duplicate the dataframe")
+def compare_memory(engine: str, datapath: str, csvfilename: str, duplicate : int):
 
-    SUPPORTED_ENGINES = ["pandas", "polars", "io"]
+    SUPPORTED_ENGINES = ["pandas", "polars", "io", "modin"]
     if engine not in SUPPORTED_ENGINES:
 
         raise ValueError(f"Input {engine} invalid. Only supports {SUPPORTED_ENGINES}")
-    
-    duplicates = 100
-    
-    key = "sampleinput"
-    files = [f"data/{key}.csv"] * duplicates
-    header = "key, counter\n"
-    
-    nativeoutputfile = f"data/{key}_native.csv"
-    pdoutputfile = f"data/{key}_pd.csv"
-    
-    key = "winequality-red"
-    files = [f"data/{key}.csv"] * duplicates
-    
-    headerlist = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
+        
+    SUPPORTED_FILENAME = ["train_essays_7_prompts_v2", "winequality-red"]
+
+    if csvfilename not in SUPPORTED_FILENAME:
+
+        raise ValueError(f"Input {csvfilename} invalid. Only supports {SUPPORTED_FILENAME}")
+
+    else:
+
+        if csvfilename == SUPPORTED_FILENAME[0]:
+            headerlist = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
        'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density',
        'pH', 'sulphates', 'alcohol', 'quality']
+        
+        elif csvfilename == SUPPORTED_FILENAME[1]:
+            headerlist = ["text", "label"]
+
+        else:
+
+            print("DEFINE YOUR OWN HEADER! Only needed for io method.")
     
+    files = [f"{datapath}/{csvfilename}.csv"] * duplicate
     header = ", ".join(headerlist) + "\n"
     
-    nativeoutputfile = f"data/{key}_native.csv"
-    pdoutputfile = f"data/{key}_pd.csv"
-    ploutputfile = f"data/{key}_pl.csv"
-    modinpdoutputfile = f"data/{key}_modin_pd.csv"
-
 
     if engine == "io":
         print("Run io method")
+        nativeoutputfile = f"{datapath}/{csvfilename}_native.csv"
         merge_with_io(files, nativeoutputfile, header)
 
     elif engine == "polars":
         print("Run polars method")   
+        ploutputfile = f"{datapath}/{csvfilename}_pl.csv"
         merge_with_polars(files, ploutputfile)
 
     elif engine == "pandas":
-        print("Run pandas method")   
+        print("Run pandas method")  
+        pdoutputfile = f"{datapath}/{csvfilename}_pd.csv"
         merge_with_pandas(files, pdoutputfile)
 
     elif engine == "modin":
         print("Run modin method")
+        modinpdoutputfile = f"{datapath}/{csvfilename}_modin_pd.csv"
         merge_with_modin_pandas(files, modinpdoutputfile)
 
 
