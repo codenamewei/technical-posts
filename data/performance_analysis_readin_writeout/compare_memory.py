@@ -3,7 +3,7 @@
 #----------------------------------------------------------------------------
 # Created By  : codenamewei
 # Created Date: 2023-11-10
-# Updated Date: 2023-11-14
+# Updated Date: 2023-11-16
 # version ='1.0'
 # ---------------------------------------------------------------------------
 from memory_profiler import profile
@@ -81,10 +81,10 @@ def merge_with_modin_pandas(files: list[str], outputfile : str) -> None:
 
         
 @click.command()
-@click.option('--engine', default="pandas", help='Engine to process data')
-@click.option('--datapath', default="data/", help='datapath where csv file exists (without filename)')
-@click.option('--csvfilename', default="winequality-red", help='csvfilename (without extension). Supported options: train_essays_7_prompts_v2, winequality-red')
-@click.option("--duplicate", default=10, type = int, help="Number of times to duplicate the dataframe")
+@click.option('--engine', default="pandas", help='(Required) Engine to process data.\nSupported options: [io, pandas, polars, modin]')
+@click.option('--datapath', default="data/", help='(Optional) Datapath where csv file exists (without filename).\nDefault: data/')
+@click.option('--csvfilename', default="winequality-red", help='(Optional) Csvfilename (without extension).\nSupported options: [train_essays_7_prompts_v2, winequality-red]. Default: winequality-red')
+@click.option("--duplicate", default=10, type = int, help="(Optional) Number of times to duplicate the dataframe.\nDefault: 10")
 def compare_memory(engine: str, datapath: str, csvfilename: str, duplicate : int):
 
     SUPPORTED_ENGINES = ["pandas", "polars", "io", "modin"]
