@@ -1,7 +1,7 @@
 ## Performance Analysis: Read-In, Write-Out with Native IO, Pandas, Polars, and Modin
 
 <p align="center">
-    <img src="metadata/image_banner.png" width="400">
+    <img src="metadata/image_banner.png" width="500">
 </p>
 
 ### Dependencies
