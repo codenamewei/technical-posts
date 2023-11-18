@@ -1,11 +1,7 @@
 ## Dependencies
+Install using the command 
 ```
-pip install memory_profiler
-pip install line_profiler
-pip install pandas==1.5.2
-pip install polars
-pip install modin[all]
-pip install cchardet
+python -m pip install -r requirements.txt
 ```
 
 
