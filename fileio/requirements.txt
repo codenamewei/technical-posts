@@ -1,0 +1,8 @@
+memory_profiler
+line_profiler
+pandas
+polars
+modin[ray]
+cchardet
+click
+distributed
