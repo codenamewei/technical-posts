@@ -21,6 +21,6 @@ Centralized repository for resources of technical posts.
 3. Part 1: Managing Lifespan Events in FastAPI with Redis Example&nbsp;&nbsp;[Code](fastapi/event_handling/part1_lifespan_event_handling_with_redis/server.py) [Post](https://medium.com/datadriveninvestor/part-1-managing-lifespan-events-in-fastapi-with-redis-example-a63db39bc5eb)  
 ![Python](https://img.shields.io/badge/-Python-05122A?style=flat&logo=python)![FastAPI](https://img.shields.io/badge/-FastAPI-05122A?style=flat&logo=fastapi)
 4. Part 2: Managing Lifespan Events in FastAPI with Machine Learning Example _(Work in Progress)_
-5. Performance Analysis: Read-In, Write-Out with Native IO, Pandas, Polars, and Modin&nbsp;&nbsp;[Code](data/performance_analysis_readin_writeout/readme.md) Post  
+5. Performance Analysis: Read-In, Write-Out with Native IO, Pandas, Polars, and Modin&nbsp;&nbsp;[Code](data/performance_analysis_readin_writeout/readme.md) [Post](https://medium.datadriveninvestor.com/performance-analysis-read-in-write-out-with-native-io-pandas-polars-and-modin-c1f295e57e73?sk=fe2cdc69803ec85af2d310c2fd7dfc5a)  
 ![Python](https://img.shields.io/badge/-Python-05122A?style=flat&logo=python)![Pandas](https://img.shields.io/badge/-Pandas-05122A?style=flat&logo=pandas)![Polars](https://img.shields.io/badge/-Polars-05122A?style=flat&logo=polars)![Modin](https://img.shields.io/badge/-Modin-05122A?style=flat&logo=modin)
 
