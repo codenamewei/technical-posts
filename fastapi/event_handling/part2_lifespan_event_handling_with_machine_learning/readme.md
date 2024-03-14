@@ -1,1 +1,0 @@
-## Part 2: Managing Lifespan Events in FastAPI with Machine Learning Example
