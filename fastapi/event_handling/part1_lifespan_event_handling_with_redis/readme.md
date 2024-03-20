@@ -1,4 +1,4 @@
-## Part 1: Managing Lifespan Events in FastAPI with Redis Example
+## Managing Lifespan Events in FastAPI with Redis Example
 
 ### Install dependencies
 ```
