@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+
+  sample-app-frontend:
+    image: sample-app-frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - sample-app-backend
+
+  sample-app-backend:
+    image: sample-app-backend
+    ports:
+      - "8000:8000"
+    restart: unless-stopped

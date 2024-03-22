@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+RUN mkdir /root/.streamlit
+COPY config.toml /root/.streamlit/config.toml
+
+COPY requirements.txt frontend.py /app/
+
+RUN mkdir -p /app/pages /app/public
+COPY public /app/public
+COPY pages /app/pages
+
+
+RUN pip install -r /app/requirements.txt 
+ENV PYTHONPATH=/usr/local/lib/python3.11/site-packages
+
+WORKDIR /app
+
+CMD ["/usr/local/bin/streamlit", "run", "frontend.py"]
