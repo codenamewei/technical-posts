@@ -14,9 +14,9 @@ Centralized repository for resources of technical posts.
 <img src="metadata/banner.png"></br></br>
 
 
-1. Part 1: Displaying Images in Jupyter Notebook&nbsp;&nbsp;[Code](jupyter/post1_displaying-images-in-jupyter-notebook/readme.md)&nbsp;&nbsp;[Post](https://medium.com/better-programming/part-1-displaying-images-in-jupyter-notebook-50863b06af91)  
+1. Part 1: Displaying Images in Jupyter Notebook&nbsp;&nbsp;[Code](jupyter/post1_displaying-images-in-jupyter-notebook/readme.md)&nbsp;&nbsp;[Post](https://open.substack.com/pub/codenamewei/p/part-1-displaying-images-in-jupyter?r=5jsqh&utm_campaign=post&utm_medium=web)  
 ![Python](https://img.shields.io/badge/-Python-05122A?style=flat&logo=python)![Markdown](https://img.shields.io/badge/-Markdown-05122A?style=flat&logo=markdown)
-2. Part 2: Displaying Videos in Jupyter Notebook&nbsp;&nbsp;[Code](jupyter/post2_displaying-videos-in-jupyter-notebook/readme.md)&nbsp;&nbsp;[Post](https://betterprogramming.pub/part-2-displaying-videos-in-jupyter-notebook-e9dda3bf1e20?sk=1b428e1f06a381badcb774209029d3dc)  
+2. Part 2: Displaying Videos in Jupyter Notebook&nbsp;&nbsp;[Code](jupyter/post2_displaying-videos-in-jupyter-notebook/readme.md)&nbsp;&nbsp;[Post](https://open.substack.com/pub/codenamewei/p/part-2-displaying-videos-in-jupyter?r=5jsqh&utm_campaign=post&utm_medium=web)  
 ![Python](https://img.shields.io/badge/-Python-05122A?style=flat&logo=python)![Markdown](https://img.shields.io/badge/-Markdown-05122A?style=flat&logo=markdown)
 3. Managing Lifespan Events in FastAPI with Redis Example&nbsp;&nbsp;[Code](fastapi/event_handling/part1_lifespan_event_handling_with_redis/server.py) [Post](https://open.substack.com/pub/codenamewei/p/managing-lifespan-events-in-fastapi?r=5jsqh&utm_campaign=post&utm_medium=web&showWelcomeOnShare=true)  
 ![Python](https://img.shields.io/badge/-Python-05122A?style=flat&logo=python)![FastAPI](https://img.shields.io/badge/-FastAPI-05122A?style=flat&logo=fastapi)
